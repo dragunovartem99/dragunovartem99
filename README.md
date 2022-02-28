@@ -13,7 +13,7 @@ My desire is to make custom and beautiful websites, that are lightweight and min
 
 So in 2021 I have started to study web development by taking paid courses and watching YouTube lectures.
 
-## Now I am working on developing this skills:
+## Now I am working on developing this skills
 1. Clean and Semantic HTML
 2. Beautiful and Flexible styling with CSS
 3. Responsive Design (make your website look great on any device)
@@ -32,7 +32,7 @@ Npm
 7-1 architecture
 Mobile-first
 
-## I am taking this killer webdev courses:
+## I am taking this killer webdev courses
 - [Build Responsive Real-World Websites with HTML and CSS](https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/)
 - [Advanced CSS and Sass: Flexbox, Grid, Animations and More!](https://www.udemy.com/course/advanced-css-and-sass/)
 - [The Web Developer Bootcamp 2022](https://www.udemy.com/course/the-web-developer-bootcamp/)
@@ -40,11 +40,11 @@ Mobile-first
 
 As you can see, my favorite instructors are **Jonas Schmedtmann** and **Colt Steele**.
 
-## Most valuable YT channels:
+## Most valuable YT channels
 - [Traversy Media — General Wise Advice](https://www.youtube.com/c/TraversyMedia)
 - [Kevin Powell — Improve your CSS understanding](https://www.youtube.com/kepowob)
 
-## Some facts about me:
+## Some facts about me
 - Lists-lover 😅
 - Vegetarian 🐼
 - [Pretty good amateur chess player](https://lichess.org/@/dragunovartem99)
