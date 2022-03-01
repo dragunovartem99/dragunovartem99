@@ -1,17 +1,14 @@
 # Hi there 😄
 
-Portfolio: https://dragunovartem99.github.io/
+> Portfolio: https://dragunovartem99.github.io/
+> 
+> Freecodecamp: https://www.freecodecamp.org/dragunovartem99
 
-My name is Artem, I am 22 y.o.
+My name is Artem, I am 22 y.o. When I was a teen, I dreamed about creating my own website. I tried some builders like uCoz, later Wordpress.
 
-When I was a teen, I dreamed about creating my own website.
-I tried some builders like uCoz, later Wordpress.
+It wasn't fun. I felt too restricted with pre-built themes and structures. So in 2021 I have started to study web development by taking paid courses and watching YouTube lectures.
 
-It wasn't fun. I felt too restricted with pre-built themes and structures.
-
-My desire is to make custom and beautiful websites, that are lightweight and minimalistic.
-
-So in 2021 I have started to study web development by taking paid courses and watching YouTube lectures.
+My desire is to make custom and beautiful websites, that are lightweight and minimalistic. 
 
 ## Now I am working on developing this skills
 1. Clean and Semantic HTML
@@ -22,15 +19,14 @@ So in 2021 I have started to study web development by taking paid courses and wa
 6. Smart and effective code organization
 
 ## My experience with HTML/CSS tools
-❤️ | 😐 | 💔
+❤️ | 🤔 | 💩
 -|-|-
-BEM|Open Props|Bootstrap
-SCSS|Desktop-first|Tailwind
-Astro SSG||Gulp
-PostCSS||Utility Classes
-Npm
-7-1 architecture
-Mobile-first
+Mobile-first|Desktop-first|Bootstrap
+BEM|Open Props|Tailwind (sorry)
+npm|Astro SSG|Gulp
+Sass, PostCSS|Atomic CSS|Utility Classes in HTML
+Flexbox, Grid||Float Layouts
+
 
 ## I am taking this killer webdev courses
 - [Build Responsive Real-World Websites with HTML and CSS](https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/)
