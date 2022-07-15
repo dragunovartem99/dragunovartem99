@@ -11,11 +11,12 @@ Artem, 23 y.o. Actively growing web developer.
 My drive is to make beautiful and effective websites and apps that will help other people.
 
 ## Right now I am working on developing this skills
-1. Vanilla JavaScript Programming
-2. Responsive Design
-3. Maintainable CSS
-4. Clean Semantic HTML
-5. Effective Code Organization
+1. Vue.js Framework
+2. In-Depth Vanilla JavaScript
+3. Responsive Design
+4. Maintainable CSS
+5. Clean Semantic HTML
+6. Effective Code Organization
 
 ## My experience with HTML/CSS tools
 ❤️ | 🤔 | 💩
