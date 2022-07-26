@@ -12,7 +12,7 @@ My drive is to make beautiful and effective websites and apps that will help oth
 
 ## Right now I am working on developing this skills
 1. Vue.js Framework
-2. In-Depth Vanilla JavaScript
+2. Vanilla JavaScript
 3. Responsive Design
 4. Maintainable CSS
 5. Clean Semantic HTML
@@ -21,9 +21,9 @@ My drive is to make beautiful and effective websites and apps that will help oth
 ## My experience with HTML/CSS tools
 ❤️ | 🤔 | 💩
 -|-|-
-BEM|Open Props|Bootstrap
-npm|Astro|Tailwind
-Sass, PostCSS|Atomic CSS|Gulp
+PostCSS|Vue.js|Tailwind
+Sass|Open Props|Bootstrap
+Astro|PostCSS|jQuery
 
 ## I am taking this killer webdev courses
 - [x] [Build Responsive Real-World Websites with HTML and CSS](https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/)
