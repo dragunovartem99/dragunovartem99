@@ -11,19 +11,18 @@ Artem, 23 y.o. Actively growing web developer.
 My drive is to make beautiful and effective websites and apps that will help other people.
 
 ## Right now I am working on developing this skills
-1. Vue.js Framework
-2. Vanilla JavaScript
-3. Responsive Design
-4. Maintainable CSS
-5. Clean Semantic HTML
-6. Effective Code Organization
+1. Vanilla JavaScript
+2. Vue.js Framework
+3. Astro SSG
+4. Responsive Design
+5. Effective Code Organization
 
-## My experience with HTML/CSS tools
+## My experience with webdev tools
 ❤️ | 🤔 | 💩
 -|-|-
-PostCSS|Vue.js|Tailwind
-Sass|Open Props|Bootstrap
-Astro|PostCSS|jQuery
+Astro|Vue.js|Tailwind
+Netlify|Open Props|Bootstrap
+Sass|PostCSS|jQuery
 
 ## I am taking this killer webdev courses
 - [x] [Build Responsive Real-World Websites with HTML and CSS](https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/)
@@ -33,8 +32,8 @@ Astro|PostCSS|jQuery
 
 ## About me
 - Lists-lover 😅
-- Vegetarian 🐼
-- [Pretty good amateur chess player](https://lichess.org/@/dragunovartem99)
+- Vegetarian 🥬
+- [Pretty good amateur chess player](https://lichess.org/@/dragunovartem99) 👑
 - Hobby guitarist 🎸
 
 <!--
