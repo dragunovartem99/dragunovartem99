@@ -1,4 +1,4 @@
-# Hi there 👀
+# Hi there!
 
 > Portfolio: https://dragunovartem99.github.io/
 > 
