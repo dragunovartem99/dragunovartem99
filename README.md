@@ -13,14 +13,13 @@ My drive is to make beautiful and effective websites and apps that will help oth
 ## Right now I am working on developing this skills
 1. Vanilla JavaScript
 2. Vue.js Framework
-3. Astro SSG
-4. Responsive Design
-5. Effective Code Organization
+3. Responsive Design
+4. Effective Code Organization
 
 ## My experience with webdev tools
 ❤️ | 🤔 | 💩
 -|-|-
-Astro|Vue.js|Tailwind
+Vue.js|Astro|Tailwind
 Netlify|Open Props|Bootstrap
 Sass|PostCSS|jQuery
 
