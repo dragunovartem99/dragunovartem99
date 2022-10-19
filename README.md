@@ -11,23 +11,17 @@ Artem, 23 y.o. Actively growing web developer.
 My drive is to make beautiful and effective websites and apps that will help other people.
 
 ## Right now I am working on developing this skills
-1. Vanilla JavaScript
-2. Vue.js Framework
+1. Understanding Vue.js
+2. Vanilla JavaScript Knowledge
 3. Responsive Design
-4. Effective Code Organization
-
-## My experience with webdev tools
-❤️ | 🤔 | 💩
--|-|-
-Vue.js|Astro|Tailwind
-Netlify|Open Props|Bootstrap
-Sass|PostCSS|jQuery
+4. BEM Naming Convention
+5. Effective Code Organization
 
 ## I am taking this killer webdev courses
 - [x] [Build Responsive Real-World Websites with HTML and CSS](https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/)
 - [ ] [Advanced CSS and Sass: Flexbox, Grid, Animations and More!](https://www.udemy.com/course/advanced-css-and-sass/)
-- [ ] [The Web Developer Bootcamp 2022](https://www.udemy.com/course/the-web-developer-bootcamp/)
 - [ ] [The Complete JavaScript Course 2022: From Zero to Expert!](https://www.udemy.com/course/the-complete-javascript-course/)
+- [ ] [The Web Developer Bootcamp 2022](https://www.udemy.com/course/the-web-developer-bootcamp/)
 
 ## About me
 - Lists-lover 😅
