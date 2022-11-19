@@ -1,10 +1,10 @@
 # Hi there!
 
+[![CodeWars badge](https://www.codewars.com/users/dragunovartem99/badges/large)](https://www.codewars.com/users/dragunovartem99)
+
 > Portfolio: https://dragunovartem99.github.io/
 > 
 > Freecodecamp: https://www.freecodecamp.org/dragunovartem99
-> 
-> Codewars: https://www.codewars.com/users/dragunovartem99
 
 Artem, 23 y.o. Actively growing web developer.
 
