@@ -1,6 +1,6 @@
 # Hi there!
 
-[![CodeWars badge](https://www.codewars.com/users/dragunovartem99/badges/large)](https://www.codewars.com/users/dragunovartem99)
+[![CodeWars badge](https://www.codewars.com/users/dragunovartem99/badges/large)](https://www.codewars.com/users/dragunovartem99){:target="_blank"}
 
 > Portfolio: https://dragunovartem99.github.io/
 
