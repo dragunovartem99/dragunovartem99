@@ -12,8 +12,9 @@ My drive is to make beautiful and effective websites and apps that will help oth
 1. Understanding Vue.js
 2. Vanilla JavaScript Knowledge
 3. Responsive Design
-4. BEM Naming Convention
+4. BEM Methodology
 5. Effective Code Organization
+6. Data Analysis with Python
 
 ## I am taking this killer webdev courses
 - [x] [Build Responsive Real-World Websites with HTML and CSS](https://www.udemy.com/course/design-and-develop-a-killer-website-with-html5-and-css3/)
