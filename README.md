@@ -4,7 +4,7 @@
 
 > Portfolio: https://dragunovartem99.github.io/
 
-Artem, 24 y.o.
+Artem, 25 y.o.
 
 My drive is to make beautiful and effective websites and apps that will help other people.
 
