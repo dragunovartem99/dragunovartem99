@@ -17,7 +17,7 @@ Now, evolving to understand and operate with its laws
 | - | - | - |
 | HTML, CSS, JavaScript | Each of these is deeper than it seems | ⭐⭐⭐⭐⭐ |
 | Web APIs | Have everything you could imagine without any libraries | 🌐🌐🌐🌐🌐 |
-| Linux /  bash / git CLI | Amazing flexiblitiy, stability and freedom | 🐧🐧🐧🐧🐧 |
+| Linux | Amazing flexiblitiy, stability and freedom | 🐧🐧🐧🐧🐧 |
 | Vue / Nuxt | These frameworks allow you to be minimal and effective | 💚💚💚💚💚 |
 | nvim / vim | SSH to any place and feel at home | 😎😎😎😎😎 |
 
