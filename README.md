@@ -32,4 +32,4 @@ Now, evolving to understand and operate with its laws
 
 ## Tags
 
-`#ex-teacher` | [`#strong-chess-player`](https://lichess.org/@/dragunovartem99) | `#vegetarian` | `#hobby-guitarist` | `#markdown-cultist` | `#creative`
+`#ex-teacher` | [`#decent-chess-player`](https://lichess.org/@/dragunovartem99) | `#vegetarian` | `#hobby-guitarist` | `#markdown-cultist`
