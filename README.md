@@ -1,7 +1,7 @@
 # whoami
 
 ```
-25 y.o. self-taught  
+26 y.o. self-taught  
 frontend web developer
 
 Fell in love with computer mysteries from an early age  
