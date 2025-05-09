@@ -1,34 +1,33 @@
-# whoami
-
-```
-26 y.o. self-taught  
-frontend web developer
-
-Fell in love with computer mysteries from an early age  
-Now, evolving to understand and operate with its laws
-```
+# Dragunov Artem
 
 [![CodeWars badge](https://www.codewars.com/users/dragunovartem99/badges/large)](https://www.codewars.com/users/dragunovartem99)
 
+```
+~ $ whoami
 
-## Currently Enjoying
+ ______________        dragunovartem99@debian
+||            ||       ----------------------
+||            ||       Role: Frontend Developer
+||            ||       Origin: Self-taught
+||            ||       Uptime: 26 years
+||____________||       Packages: JavaScript, TypeScript, Vue, Nuxt, Vite (npm)
+|______________|       ~
+ \\############\\      ~
+  \\############\\     Shell: bash 5.2.15
+   \      ____    \    Tooling: nvim, tmux, xterm
+    \_____\___\____\   Languages: en, ru
 
-| Technology | Review | Rating |
-| - | - | - |
-| HTML, CSS, JavaScript | Each of these is deeper than it seems | ⭐⭐⭐⭐⭐ |
-| Vue / Nuxt | These frameworks allow you to be minimal and effective | 💚💚💚💚💚 |
-| Linux | Amazing flexiblitiy, stability and freedom | 🐧🐧🐧🐧🐧 |
-| nvim / vim | SSH to any place and feel at home | 😎😎😎😎😎 |
+```
 
-## Interested In
+## Exploring right now
 
-1. Computer Science Basics
-2. Fullstack Path (Node.js)
-3. Precise Tool Knowledge (docs & specs)
-4. Stealing OOP Ideas to Build Maintainable Systems
-5. General Engineering Literacy
-6. Aesthetic UIs
+1. Computer science fundamentals
+2. Big picture of the Web architecture
+3. Object Oriented Programming
+4. Automation, better DX on Linux
+
+> I believe that the Web deserves to be both _aesthetic_ and **fast**!
 
 ## Tags
 
-`#ex-teacher` | [`#decent-chess-player`](https://lichess.org/@/dragunovartem99) | `#vegetarian` | `#hobby-guitarist` | `#markdown-cultist`
+[`#chess-lover`](https://lichess.org/@/dragunovartem99) | `#vegetarian` | `#hobby-guitarist`
