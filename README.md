@@ -23,7 +23,7 @@
 
 1. Computer science fundamentals
 2. Big picture of the Web architecture
-3. Object Oriented Programming
+3. Object-oriented programming
 4. Automation, better DX on Linux
 
 > I believe that the Web deserves to be both _aesthetic_ and **fast**!
