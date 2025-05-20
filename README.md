@@ -10,10 +10,10 @@
 ||            ||       Role: Frontend Developer
 ||            ||       Origin: Self-taught
 ||            ||       Uptime: 26 years
-||____________||       Packages: JavaScript, TypeScript, Vue, Nuxt, Vite (npm)
+||____________||       Packages: TypeScript, Vue, Nuxt, Vite (npm)
 |______________|       ~
- \\############\\      ~
-  \\############\\     Shell: bash 5.2.15
+ \\############\\      Shell: bash 5.2.38
+  \\############\\     WM: i3
    \      ____    \    Tooling: nvim, tmux, xterm
     \_____\___\____\   Languages: en, ru
 
