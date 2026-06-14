@@ -9,12 +9,12 @@
 ||            ||       ----------------------
 ||            ||       Role: Frontend Developer
 ||            ||       Origin: Self-taught
-||            ||       Uptime: 26 years
+||            ||       Uptime: 27 years
 ||____________||       Packages: TypeScript, Vue, Nuxt, Vite (npm)
 |______________|       ~
  \\############\\      Shell: bash 5.2.37
   \\############\\     WM: i3
-   \      ____    \    Tooling: nvim, tmux, xterm
+   \      ____    \    Tooling: nvim, tmux, xterm, claude
     \_____\___\____\   Languages: en, ru
 
 ```
@@ -25,6 +25,7 @@
 2. Big picture of the Web architecture
 3. Object-oriented programming
 4. Automation, better DX on Linux
+5. Agentic coding systems
 
 > I believe that the Web deserves to be both _aesthetic_ and **fast**!
 
