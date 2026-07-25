@@ -1,4 +1,4 @@
-# Dragunov Artem
+# Artem Dragunov
 
 [![CodeWars badge](https://www.codewars.com/users/dragunovartem99/badges/large)](https://www.codewars.com/users/dragunovartem99)
 
