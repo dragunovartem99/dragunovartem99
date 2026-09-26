@@ -23,3 +23,5 @@ agg --font-family "JetBrainsMonoNL Nerd Font Mono" --font-size 26 --fps-cap 30 -
 ```
 
 </details>
+
+---
