@@ -4,6 +4,7 @@
 
 <details>
 <summary>Behind the scenes</summary>
+<br>
 
 It's a real program, not a screen recording of me typing:
 
@@ -23,5 +24,3 @@ agg --font-family "JetBrainsMonoNL Nerd Font Mono" --font-size 26 --fps-cap 30 -
 ```
 
 </details>
-
----
