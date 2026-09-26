@@ -1,4 +1,4 @@
-// gcc main.c -o artem -lncursesw -lm && ./artem
+// gcc main.c -o intro -lncursesw -lm && ./intro
 
 #include <locale.h>
 #include <math.h>

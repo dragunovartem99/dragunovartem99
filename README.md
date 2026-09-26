@@ -9,13 +9,13 @@
 It's a real program, not a screen recording of me typing:
 
 ```sh
-gcc main.c -o artem -lncursesw -lm && ./artem
+gcc main.c -o intro -lncursesw -lm && ./intro
 ```
 
 Recorded with [asciinema](https://asciinema.org) and [agg](https://github.com/asciinema/agg), in Tomorrow Night colors:
 
 ```sh
-TERM=xterm-256color asciinema rec --cols 80 --rows 17 -c "timeout --foreground 23.95 ./artem" raw.cast
+TERM=xterm-256color asciinema rec --cols 80 --rows 17 -c "timeout --foreground 23.95 ./intro" raw.cast
 # keep exactly one 23.35s loop, without the exit that would blank the last frame
 jq -c 'select(type == "object" or (.[0] < 23.35 and .[1] == "o"))' raw.cast > demo.cast
 agg --font-family "JetBrainsMonoNL Nerd Font Mono" --font-size 26 --fps-cap 30 --last-frame-duration 0 \
