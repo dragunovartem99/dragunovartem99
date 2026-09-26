@@ -23,10 +23,7 @@ enum {
 	MAGENTA,
 	CYAN,
 	WHITE,
-	GREY,
-	LIGHT,
-	DARK,
-	TRAIL
+	GREY
 };
 
 #define CHAR 0.07 // seconds per typed key
@@ -166,60 +163,31 @@ static double exploring(void) {
 	return finish(5 + TOPICS_N + 1, done, 2.5);
 }
 
-// the motto, printed by pv as slowly as it would be spoken
-static const struct {
-	const char *text;
-	attr_t attr;
-} MOTTO[] = {
-	{ "I believe that the Web deserves to be", 0 },
-	{ "\n", 0 },
-	{ "both ", 0 },
-	{ "aesthetic", A_ITALIC | A_BOLD },
-	{ " and ", 0 },
-	{ "fast", A_BOLD },
-	{ "!", 0 },
+// two pixels per cell, drawn with half blocks
+static const char *KNIGHT[] = {
+	"....#.#.....", "...#####....", "..#######...", ".##.######..",
+	"##########..", "###...#####.", ".....######.", "....#######.",
+	"..##########", ".###########",
 };
-#define MOTTO_N 7
-#define PV_RATE 22.0
 
-static double motto(void) {
-	double out = command(1, "pv -qL 22 motto.txt", 0, IDLE);
-	int shown = clampi((now - out) * PV_RATE, 0, 1000), y = 3, x = 1, total = 0;
-	for (int i = 0; i < MOTTO_N; i++) {
-		const char *s = MOTTO[i].text;
-		int len = strlen(s);
-		total += len;
-		if (*s == '\n') {
-			if (shown-- > 0)
-				y++, x = 1;
-			continue;
-		}
-		int n = clampi(shown, 0, len);
-		int pair = MOTTO[i].attr & A_ITALIC ? MAGENTA
-				   : MOTTO[i].attr			? YELLOW
-											: WHITE;
-		putn(y, x, s, n, COLOR_PAIR(pair) | MOTTO[i].attr);
-		shown -= n, x += n;
-	}
-	double done = out + total / PV_RATE + 0.2;
-	if (now >= out && now < done)
-		cursor(y, x, 1);
-	return finish(6, done, 2.5);
+static int knight_px(int r, int c, int blink) {
+	if (r < 0 || r > 9)
+		return 0;
+	return KNIGHT[r][c] == '#' || (blink && r == 3 && c == 3);
 }
 
-// knight hops around a 4x4 board, always a legal move
-static void draw_chess(int y, int x, double t) {
-	static const int TOUR[][2] = { { 0, 3 }, { 1, 1 }, { 3, 0 }, { 2, 2 } };
-	int hop = fmin(t, 3.9) / 0.8, at = hop % 4, from = (hop + 3) % 4;
-	for (int r = 0; r < 4; r++)
-		for (int c = 0; c < 4; c++) {
-			int pair = (r + c) % 2 ? DARK : LIGHT;
-			if (hop && r == TOUR[from][1] && c == TOUR[from][0])
-				pair = TRAIL;
-			put(y + r, x + 3 * c, "   ", COLOR_PAIR(pair));
-			if (r == TOUR[at][1] && c == TOUR[at][0])
-				put(y + r, x + 3 * c + 1, "\U000F0858",
-					COLOR_PAIR(pair) | A_BOLD);
+// the knight hops a pixel, as if it were being moved, and blinks now and then
+static void draw_knight(int y, int x, double t) {
+	put(y + 5, x, "▔▔▔▔▔▔▔▔▔▔▔▔", COLOR_PAIR(GREY));
+	int lift = fmod(t, 1.6) > 0.4 && fmod(t, 1.6) < 0.65,
+		blink = fmod(t, 2.2) > 2.05;
+	for (int r = -1; r < 5; r++)
+		for (int c = 0; c < 12; c++) {
+			int top = knight_px(2 * r + lift, c, blink),
+				bot = knight_px(2 * r + 1 + lift, c, blink);
+			if (top || bot)
+				put(y + r, x + c, top && bot ? "█" : top ? "▀" : "▄",
+					COLOR_PAIR(BLUE));
 		}
 }
 
@@ -267,8 +235,8 @@ static void draw_guitar(int y, int x, double t) {
 static double hobbies(void) {
 	double out = command(1, "./hobbies", 0, IDLE), t = now - out;
 	if (t >= 0) {
-		draw_chess(5, 4, t);
-		draw_broccoli(3, 31, t);
+		draw_knight(4, 3, t);
+		draw_broccoli(4, 31, t);
 		draw_guitar(3, 54, t);
 		put(10, 3, "#chess-lover", COLOR_PAIR(BLUE) | A_BOLD);
 		put(10, 30, "#vegetarian", COLOR_PAIR(GREEN) | A_BOLD);
@@ -277,8 +245,8 @@ static double hobbies(void) {
 	return finish(12, out + 3.8, 2.5);
 }
 
-static double (*const SCENES[])(void) = { whoami, exploring, motto, hobbies };
-#define SCENES_N 4
+static double (*const SCENES[])(void) = { whoami, exploring, hobbies };
+#define SCENES_N 3
 
 // i3's title bar over the window
 static void draw_title(void) {
@@ -301,9 +269,6 @@ static void init_colors(void) {
 	init_pair(CYAN, COLOR_CYAN, -1);
 	init_pair(WHITE, COLOR_WHITE, -1);
 	init_pair(GREY, rich ? 8 : COLOR_WHITE, -1);
-	init_pair(LIGHT, COLOR_WHITE, rich ? 241 : COLOR_WHITE);
-	init_pair(DARK, COLOR_WHITE, rich ? 237 : COLOR_BLACK);
-	init_pair(TRAIL, COLOR_WHITE, rich ? 94 : COLOR_YELLOW);
 }
 
 int main(void) {
