@@ -1,34 +1,25 @@
 # Artem Dragunov
 
-[![CodeWars badge](https://www.codewars.com/users/dragunovartem99/badges/large)](https://www.codewars.com/users/dragunovartem99)
+<img src="demo.gif" alt="A small terminal window: whoami, what I'm exploring right now, my motto, and my hobbies — chess, greens and guitar" />
 
-```
-~ $ whoami
+<details>
+<summary>Behind the scenes</summary>
 
- ______________        dragunovartem99@debian
-||            ||       ----------------------
-||            ||       Role: Frontend Developer
-||            ||       Origin: Self-taught
-||            ||       Uptime: 27 years
-||____________||       Packages: TypeScript, Vue, Nuxt, Vite (npm)
-|______________|       ~
- \\############\\      Shell: bash 5.2.37
-  \\############\\     WM: i3
-   \      ____    \    Tooling: nvim, tmux, xterm, claude
-    \_____\___\____\   Languages: en, ru
+It's a real program, not a screen recording of me typing:
 
+```sh
+gcc main.c -o artem -lncursesw -lm && ./artem
 ```
 
-## Exploring right now
+Recorded with [asciinema](https://asciinema.org) and [agg](https://github.com/asciinema/agg), in Tomorrow Night colors:
 
-1. Computer science fundamentals
-2. Big picture of the Web architecture
-3. Object-oriented programming
-4. Automation, better DX on Linux
-5. Agentic coding systems
+```sh
+TERM=xterm-256color asciinema rec --cols 80 --rows 19 -c "timeout --foreground 32.3 ./artem" raw.cast
+# keep exactly one 31.7s loop, without the exit that would blank the last frame
+jq -c 'select(type == "object" or (.[0] < 31.7 and .[1] == "o"))' raw.cast > demo.cast
+agg --font-family "JetBrainsMonoNL Nerd Font Mono" --font-size 18 --fps-cap 30 --last-frame-duration 0 \
+    --theme 1d1f21,c5c8c6,282a2e,cc6666,b5bd68,f0c674,81a2be,b294bb,8abeb7,c5c8c6,969896,cc6666,b5bd68,f0c674,81a2be,b294bb,8abeb7,ffffff \
+    demo.cast demo.gif
+```
 
-> I believe that the Web deserves to be both _aesthetic_ and **fast**!
-
-## Tags
-
-[`#chess-lover`](https://lichess.org/@/dragunovartem99) | `#vegetarian` | `#hobby-guitarist`
+</details>
