@@ -116,9 +116,7 @@ static double whoami(void) {
 			put(y, x + strlen(INFO[i - 2][0]), ": ", COLOR_PAIR(WHITE));
 			put(y, x + strlen(INFO[i - 2][0]) + 2, INFO[i - 2][1],
 				COLOR_PAIR(WHITE));
-		} else
-			for (int c = 0; c < 7; c++)
-				put(y, x + 3 * c, "   ", COLOR_PAIR(RED + c) | A_REVERSE);
+		}
 	}
 	return finish(3 + ART_H + 1, out + ART_H * 0.06, 4.5);
 }
