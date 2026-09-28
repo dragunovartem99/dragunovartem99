@@ -1,0 +1,7 @@
+pad=iw+48:ih+48:24:24:color=0x1d1f21,format=yuv444p,hue=s=0,split[a][b];
+[b]gblur=sigma=7[g];
+[a][g]blend=all_mode=screen:all_opacity=0.55,
+geq=lum='lum(X,Y)*if(eq(mod(Y,3),0),0.72,1)':cb=128:cr=128,
+lenscorrection=k1=0.04:k2=0.02,
+vignette=angle=PI/5:dither=0,
+split[x][y];[x]palettegen=stats_mode=full[p];[y][p]paletteuse=dither=none:diff_mode=rectangle
