@@ -92,6 +92,7 @@ static const char *INFO[][2] = {
 	{ "Origin", "Self-taught" },
 	{ "Uptime", "27 years" },
 	{ "Packages", "TypeScript, Vue, Nuxt, Vite (npm)" },
+	{ "~", NULL },
 	{ "Shell", "bash 5.2.37" },
 	{ "WM", "i3" },
 	{ "Tooling", "nvim, tmux, xterm, claude" },
@@ -111,7 +112,9 @@ static double whoami(void) {
 			put(y, x + 16, "debian", COLOR_PAIR(RED) | A_BOLD);
 		} else if (i == 1)
 			put(y, x, "----------------------", COLOR_PAIR(WHITE));
-		else if (i < 10) {
+		else if (!INFO[i - 2][1])
+			put(y, x, INFO[i - 2][0], COLOR_PAIR(BLUE) | A_BOLD);
+		else {
 			put(y, x, INFO[i - 2][0], COLOR_PAIR(RED) | A_BOLD);
 			put(y, x + strlen(INFO[i - 2][0]), ": ", COLOR_PAIR(WHITE));
 			put(y, x + strlen(INFO[i - 2][0]) + 2, INFO[i - 2][1],
