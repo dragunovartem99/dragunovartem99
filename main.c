@@ -88,7 +88,7 @@ static const char *ART[] = {
 #define ART_H 11
 
 static const char *INFO[][2] = {
-	{ "Role", "Frontend Developer" },
+	{ "Role", "Frontend → Full-stack" },
 	{ "Origin", "Self-taught" },
 	{ "Uptime", "27 years" },
 	{ "Packages", "TypeScript, Vue, Nuxt, Vite (npm)" },
