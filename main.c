@@ -103,18 +103,18 @@ static double whoami(void) {
 	for (int i = 0; i < ART_H; i++) {
 		if (now < out + i * 0.06)
 			break;
-		put(3 + i, 2, ART[i], COLOR_PAIR(BLUE) | A_BOLD);
+		put(3 + i, 2, ART[i], COLOR_PAIR(MAGENTA) | A_BOLD);
 		int y = 3 + i, x = 26;
 		if (i == 0) {
-			put(y, x, "dragunovartem99", COLOR_PAIR(BLUE) | A_BOLD);
+			put(y, x, "dragunovartem99", COLOR_PAIR(MAGENTA) | A_BOLD);
 			put(y, x + 15, "@", COLOR_PAIR(WHITE));
-			put(y, x + 16, "debian", COLOR_PAIR(BLUE) | A_BOLD);
+			put(y, x + 16, "debian", COLOR_PAIR(MAGENTA) | A_BOLD);
 		} else if (i == 1)
 			put(y, x, "----------------------", COLOR_PAIR(WHITE));
 		else if (!INFO[i - 2][1])
 			put(y, x, INFO[i - 2][0], COLOR_PAIR(BLUE) | A_BOLD);
 		else {
-			put(y, x, INFO[i - 2][0], COLOR_PAIR(BLUE) | A_BOLD);
+			put(y, x, INFO[i - 2][0], COLOR_PAIR(MAGENTA) | A_BOLD);
 			put(y, x + strlen(INFO[i - 2][0]), ": ", COLOR_PAIR(WHITE));
 			put(y, x + strlen(INFO[i - 2][0]) + 2, INFO[i - 2][1],
 				COLOR_PAIR(WHITE));
