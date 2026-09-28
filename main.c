@@ -18,7 +18,8 @@ static void quit(int sig) {
 enum {
 	STATUS = 1,
 	WHITE,
-	GREY
+	GREY,
+	TRACK
 };
 
 #define CHAR 0.07 // seconds per typed key
@@ -81,16 +82,17 @@ static const char *ART[] = {
 #define ART_H 11
 
 static const char *INFO[][2] = {
-	{ "Role", "Frontend → Full-stack" },
+	{ "Role", "Frontend => Full-stack" },
 	{ "Origin", "Self-taught" },
 	{ "Uptime", "27 years" },
 	{ "Packages", "TypeScript, Vue, Nuxt, Vite (npm)" },
-	{ "~", NULL },
 	{ "Shell", "bash 5.2.37" },
 	{ "WM", "i3" },
 	{ "Tooling", "nvim, tmux, xterm, claude" },
 	{ "Languages", "en, ru" },
+	{ "Hobbies", "chess, guitar, Chinese tea" },
 };
+#define INFO_N (int)(sizeof INFO / sizeof *INFO)
 
 static double whoami(void) {
 	double out = command(0, "whoami", 0, IDLE);
@@ -105,9 +107,7 @@ static double whoami(void) {
 			put(y, x + 16, "debian", COLOR_PAIR(WHITE) | A_BOLD);
 		} else if (i == 1)
 			put(y, x, "----------------------", COLOR_PAIR(WHITE));
-		else if (!INFO[i - 2][1])
-			put(y, x, INFO[i - 2][0], COLOR_PAIR(GREY));
-		else {
+		else if (i - 2 < INFO_N) {
 			put(y, x, INFO[i - 2][0], COLOR_PAIR(WHITE) | A_BOLD);
 			put(y, x + strlen(INFO[i - 2][0]), ": ", COLOR_PAIR(WHITE));
 			put(y, x + strlen(INFO[i - 2][0]) + 2, INFO[i - 2][1],
@@ -133,11 +133,8 @@ static const struct {
 #define TOPICS_N 8
 #define BAR 20
 
-// a bold title underlined with dashes, like whoami's user@host
 static void heading(int y, const char *title) {
 	put(y, 1, title, COLOR_PAIR(WHITE) | A_BOLD);
-	for (int i = 0; title[i]; i++)
-		put(y + 1, 1 + i, "-", COLOR_PAIR(WHITE));
 }
 
 static double exploring(void) {
@@ -149,7 +146,7 @@ static double exploring(void) {
 		if (s < 0)
 			break;
 		double p = TOPICS[i].progress * (1 - pow(1 - fmin(s / 1.4, 1), 3));
-		int y = 5 + i, fill = lround(p * BAR);
+		int y = 4 + i, fill = lround(p * BAR);
 		char pct[8];
 		snprintf(pct, sizeof pct, "%3d%%", (int)lround(p * 100));
 		char num[4] = { '1' + i, '.' };
@@ -159,54 +156,16 @@ static double exploring(void) {
 		// left margin, and the bar sits just before it
 		for (int b = 0; b < BAR; b++)
 			put(y, COLS - 6 - BAR + b, "━",
-				b < fill ? COLOR_PAIR(WHITE) : COLOR_PAIR(GREY) | A_DIM);
+				b < fill ? COLOR_PAIR(WHITE) : COLOR_PAIR(TRACK));
 		put(y, COLS - 5, pct, COLOR_PAIR(WHITE) | A_BOLD);
 	}
 	double done = out + 0.3 + (TOPICS_N - 1) * 0.2 + 1.4;
-	return finish(14, done, 2.5);
+	return finish(4 + TOPICS_N + 1, done, 2.5);
 }
 
-#define ICON_H 7
-
-static const char *KNIGHT[ICON_H] = {
-	"  |\\_", " /  .\\_", "|   ___)", "|    \\", "|  =  |", "/_____\\",
-	"[_______]",
-};
-
-static const char *SPROUT[ICON_H] = {
-	" __   __", "(  \\ /  )", " \\_ Y _/", "    |", " ___|___", " \\     /",
-	"  \\___/",
-};
-
-static const char *GUITAR[ICON_H] = {
-	"  [=]", "   |", "   |", "   |", " /   \\", "|  O  |", " \\___/",
-};
-
-static const char *const *ICONS[] = { KNIGHT, SPROUT, GUITAR };
-static const char *NAMES[] = { "chess", "vegetarian", "guitar" };
-
-// three equal columns, each icon centered over its name and printed
-// line by line, like whoami's laptop
-static double hobbies(void) {
-	double out = command(0, "./hobbies", 0, IDLE);
-	if (now >= out)
-		heading(2, "Hobbies");
-	for (int i = 0; i < 3; i++) {
-		int mid = COLS * (2 * i + 1) / 6, w = 0;
-		for (int r = 0; r < ICON_H; r++)
-			w = fmax(w, strlen(ICONS[i][r]));
-		for (int r = 0; r < ICON_H && now >= out + (r + 1) * 0.06; r++)
-			put(5 + r, mid - w / 2, ICONS[i][r], COLOR_PAIR(GREY));
-		if (now >= out + (ICON_H + 1) * 0.06)
-			put(5 + ICON_H, mid - (int)strlen(NAMES[i]) / 2, NAMES[i],
-				COLOR_PAIR(WHITE) | A_BOLD);
-	}
-	return finish(5 + ICON_H + 2, out + (ICON_H + 1) * 0.06, 4);
-}
-
-static double (*const SCENES[])(void) = { whoami, exploring, hobbies };
-static const char *WINDOWS[] = { "whoami", "exploring", "hobbies" };
-#define SCENES_N 3
+static double (*const SCENES[])(void) = { whoami, exploring };
+static const char *WINDOWS[] = { "whoami", "exploring" };
+#define SCENES_N 2
 
 // tmux's status line, one window per scene; the date is my birthday
 static void draw_status(int active) {
@@ -234,6 +193,7 @@ static void init_colors(void) {
 	init_pair(STATUS, COLOR_WHITE, COLOR_BLACK);
 	init_pair(WHITE, COLOR_WHITE, -1);
 	init_pair(GREY, rich ? 8 : COLOR_WHITE, -1);
+	init_pair(TRACK, rich ? 237 : COLOR_BLACK, -1);
 }
 
 int main(void) {
