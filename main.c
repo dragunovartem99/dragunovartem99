@@ -98,12 +98,12 @@ static const char *INFO[][2] = {
 };
 
 static double whoami(void) {
-	double out = command(1, "whoami", 0, IDLE);
+	double out = command(0, "whoami", 0, IDLE);
 	for (int i = 0; i < ART_H; i++) {
 		if (now < out + i * 0.06)
 			break;
-		put(3 + i, 2, ART[i], COLOR_PAIR(BLUE) | A_BOLD);
-		int y = 3 + i, x = 26;
+		put(2 + i, 2, ART[i], COLOR_PAIR(BLUE) | A_BOLD);
+		int y = 2 + i, x = 26;
 		if (i == 0) {
 			put(y, x, "dragunovartem99", COLOR_PAIR(WHITE) | A_BOLD);
 			put(y, x + 15, "@", COLOR_PAIR(WHITE));
@@ -119,7 +119,7 @@ static double whoami(void) {
 				COLOR_PAIR(WHITE));
 		}
 	}
-	return finish(3 + ART_H + 1, out + ART_H * 0.06, 4.5);
+	return finish(2 + ART_H + 1, out + ART_H * 0.06, 4.5);
 }
 
 static const struct {
@@ -138,15 +138,15 @@ static const struct {
 static const int GRADIENT[] = { GREEN, CYAN, BLUE };
 
 static double exploring(void) {
-	double out = command(1, "./exploring --now", 0, IDLE);
+	double out = command(0, "./exploring --now", 0, IDLE);
 	if (now >= out)
-		put(3, 1, "Exploring right now", COLOR_PAIR(GREEN) | A_BOLD);
+		put(2, 1, "Exploring right now", COLOR_PAIR(GREEN) | A_BOLD);
 	for (int i = 0; i < TOPICS_N; i++) {
 		double s = now - out - 0.3 - i * 0.2;
 		if (s < 0)
 			break;
 		double p = TOPICS[i].progress * (1 - pow(1 - fmin(s / 1.4, 1), 3));
-		int y = 5 + i, fill = lround(p * BAR);
+		int y = 4 + i, fill = lround(p * BAR);
 		char pct[8];
 		snprintf(pct, sizeof pct, "%3d%%", (int)lround(p * 100));
 		char num[4] = { '1' + i, '.' };
@@ -159,7 +159,7 @@ static double exploring(void) {
 		put(y, 42 + BAR, pct, COLOR_PAIR(WHITE) | A_BOLD);
 	}
 	double done = out + 0.3 + (TOPICS_N - 1) * 0.2 + 1.4;
-	return finish(5 + TOPICS_N + 1, done, 2.5);
+	return finish(4 + TOPICS_N + 1, done, 2.5);
 }
 
 // two pixels per cell, drawn with half blocks
@@ -232,16 +232,16 @@ static void draw_guitar(int y, int x, double t) {
 }
 
 static double hobbies(void) {
-	double out = command(1, "./hobbies", 0, IDLE), t = now - out;
+	double out = command(0, "./hobbies", 0, IDLE), t = now - out;
 	if (t >= 0) {
-		draw_knight(4, 3, t);
-		draw_broccoli(4, 31, t);
-		draw_guitar(3, 54, t);
-		put(10, 3, "#chess-lover", COLOR_PAIR(BLUE) | A_BOLD);
-		put(10, 30, "#vegetarian", COLOR_PAIR(GREEN) | A_BOLD);
-		put(10, 54, "#hobby-guitarist", COLOR_PAIR(MAGENTA) | A_BOLD);
+		draw_knight(3, 3, t);
+		draw_broccoli(3, 31, t);
+		draw_guitar(2, 54, t);
+		put(9, 3, "#chess-lover", COLOR_PAIR(BLUE) | A_BOLD);
+		put(9, 30, "#vegetarian", COLOR_PAIR(GREEN) | A_BOLD);
+		put(9, 54, "#hobby-guitarist", COLOR_PAIR(MAGENTA) | A_BOLD);
 	}
-	return finish(12, out + 3.8, 2.5);
+	return finish(11, out + 3.8, 2.5);
 }
 
 static double (*const SCENES[])(void) = { whoami, exploring, hobbies };
