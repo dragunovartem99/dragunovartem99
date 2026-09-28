@@ -17,7 +17,6 @@ static void quit(int sig) {
 
 enum {
 	STATUS = 1,
-	BLUE,
 	WHITE,
 	GREY
 };
@@ -59,7 +58,7 @@ static double command(int y, const char *cmd, double t0, double pause) {
 		return t0 + pause + strlen(cmd) * CHAR + 0.3;
 	int len = strlen(cmd), n = clampi((now - t0 - pause) / CHAR, 0, len);
 	double enter = t0 + pause + len * CHAR + 0.3;
-	put(y, 1, "~", COLOR_PAIR(BLUE) | A_BOLD);
+	put(y, 1, "~", COLOR_PAIR(WHITE) | A_BOLD);
 	put(y, 3, "$", COLOR_PAIR(WHITE));
 	putn(y, 5, cmd, n, COLOR_PAIR(WHITE));
 	if (now < enter)
@@ -98,8 +97,8 @@ static double whoami(void) {
 	for (int i = 0; i < ART_H; i++) {
 		if (now < out + i * 0.06)
 			break;
-		put(2 + i, 1, ART[i], COLOR_PAIR(BLUE) | A_BOLD);
-		int y = 2 + i, x = 25;
+		put(2 + i, 1, ART[i], COLOR_PAIR(GREY));
+		int y = 2 + i, x = 23;
 		if (i == 0) {
 			put(y, x, "dragunovartem99", COLOR_PAIR(WHITE) | A_BOLD);
 			put(y, x + 15, "@", COLOR_PAIR(WHITE));
@@ -107,7 +106,7 @@ static double whoami(void) {
 		} else if (i == 1)
 			put(y, x, "----------------------", COLOR_PAIR(WHITE));
 		else if (!INFO[i - 2][1])
-			put(y, x, INFO[i - 2][0], COLOR_PAIR(BLUE) | A_BOLD);
+			put(y, x, INFO[i - 2][0], COLOR_PAIR(GREY));
 		else {
 			put(y, x, INFO[i - 2][0], COLOR_PAIR(WHITE) | A_BOLD);
 			put(y, x + strlen(INFO[i - 2][0]), ": ", COLOR_PAIR(WHITE));
@@ -156,80 +155,60 @@ static double exploring(void) {
 		char num[4] = { '1' + i, '.' };
 		put(y, 1, num, COLOR_PAIR(GREY));
 		put(y, 4, TOPICS[i].topic, COLOR_PAIR(WHITE));
+		// the percentage ends one column short of the right edge, like the
+		// left margin, and the bar sits just before it
 		for (int b = 0; b < BAR; b++)
-			put(y, 41 + b, "━",
-				b < fill ? COLOR_PAIR(BLUE) | A_BOLD : COLOR_PAIR(GREY) | A_DIM);
-		put(y, 42 + BAR, pct, COLOR_PAIR(WHITE) | A_BOLD);
+			put(y, COLS - 6 - BAR + b, "━",
+				b < fill ? COLOR_PAIR(WHITE) : COLOR_PAIR(GREY) | A_DIM);
+		put(y, COLS - 5, pct, COLOR_PAIR(WHITE) | A_BOLD);
 	}
 	double done = out + 0.3 + (TOPICS_N - 1) * 0.2 + 1.4;
 	return finish(14, done, 2.5);
 }
 
-// two pixels per cell, drawn with half blocks
-#define SPRITE_H 10
-#define SPRITE_W 12
+#define ICON_H 7
 
-static const char *KNIGHT[SPRITE_H] = {
-	"....#.#.....", "...#####....", "..#######...", ".##.######..",
-	"##########..", "###...#####.", ".....######.", "....#######.",
-	"..##########", ".###########",
+static const char *KNIGHT[ICON_H] = {
+	"  |\\_", " /  .\\_", "|   ___)", "|    \\", "|  =  |", "/_____\\",
+	"[_______]",
 };
 
-static const char *BROCCOLI[SPRITE_H] = {
-	"...##..##...", ".##########.", "############", "############",
-	".####.#####.", "...#.##.#...", "....####....", ".....##.....",
-	".....##.....", "....####....",
+static const char *SPROUT[ICON_H] = {
+	" __   __", "(  \\ /  )", " \\_ Y _/", "    |", " ___|___", " \\     /",
+	"  \\___/",
 };
 
-static const char *GUITAR[SPRITE_H] = {
-	"....###.....", ".....#......", ".....#......", ".....#......",
-	"...#####....", "..###.###...", "...#####....", "..#######...",
-	"..#######...", "...#####....",
+static const char *GUITAR[ICON_H] = {
+	"  [=]", "   |", "   |", "   |", " /   \\", "|  O  |", " \\___/",
 };
 
-static int pixel(const char *const *pix, int r, int c) {
-	return r >= 0 && r < SPRITE_H && pix[r][c] == '#';
-}
+static const char *const *ICONS[] = { KNIGHT, SPROUT, GUITAR };
+static const char *NAMES[] = { "chess", "vegetarian", "guitar" };
 
-// printed line by line, like whoami's laptop, standing on a ground line;
-// lift raises it a pixel
-static void sprite(int y, int x, const char *const *pix, double t, int lift) {
-	put(y + SPRITE_H / 2, x, "▔▔▔▔▔▔▔▔▔▔▔▔", COLOR_PAIR(GREY));
-	for (int r = -1; r < SPRITE_H / 2 && t >= (r + 1) * 0.06; r++)
-		for (int c = 0; c < SPRITE_W; c++) {
-			int top = pixel(pix, 2 * r + lift, c),
-				bot = pixel(pix, 2 * r + 1 + lift, c);
-			if (top || bot)
-				put(y + r, x + c, top && bot ? "█" : top ? "▀" : "▄",
-					COLOR_PAIR(BLUE));
-		}
-}
-
-// three equal columns, each picture centered over its tag
-static const char *TAGS[] = { "#chess-lover", "#vegetarian", "#hobby-guitarist" };
-static const char *const *SPRITES[] = { KNIGHT, BROCCOLI, GUITAR };
-
+// three equal columns, each icon centered over its name and printed
+// line by line, like whoami's laptop
 static double hobbies(void) {
-	double out = command(0, "./hobbies", 0, IDLE), t = now - out;
-	if (t >= 0)
+	double out = command(0, "./hobbies", 0, IDLE);
+	if (now >= out)
 		heading(2, "Hobbies");
-	for (int i = 0; i < 3 && t >= 0; i++) {
-		int mid = COLS * (2 * i + 1) / 6;
-		// the knight hops a pixel now and then, as if it were being moved
-		int lift = i == 0 && fmod(t, 1.6) > 0.4 && fmod(t, 1.6) < 0.65;
-		sprite(5, mid - SPRITE_W / 2, SPRITES[i], t, lift);
-		if (t >= SPRITE_H / 2 * 0.06)
-			put(12, mid - (int)strlen(TAGS[i]) / 2, TAGS[i],
+	for (int i = 0; i < 3; i++) {
+		int mid = COLS * (2 * i + 1) / 6, w = 0;
+		for (int r = 0; r < ICON_H; r++)
+			w = fmax(w, strlen(ICONS[i][r]));
+		for (int r = 0; r < ICON_H && now >= out + (r + 1) * 0.06; r++)
+			put(5 + r, mid - w / 2, ICONS[i][r], COLOR_PAIR(GREY));
+		if (now >= out + (ICON_H + 1) * 0.06)
+			put(5 + ICON_H, mid - (int)strlen(NAMES[i]) / 2, NAMES[i],
 				COLOR_PAIR(WHITE) | A_BOLD);
 	}
-	return finish(14, out + 3.8, 2.5);
+	return finish(5 + ICON_H + 2, out + (ICON_H + 1) * 0.06, 4);
 }
 
 static double (*const SCENES[])(void) = { whoami, exploring, hobbies };
 static const char *WINDOWS[] = { "whoami", "exploring", "hobbies" };
 #define SCENES_N 3
 
-// tmux's status line, one window per scene; the clock is my birthday
+// tmux's status line, one window per scene; the date is my birthday
 static void draw_status(int active) {
 	int y = LINES - 1, x = 0;
 	char buf[32];
@@ -244,16 +223,15 @@ static void draw_status(int active) {
 		put(y, x, buf, COLOR_PAIR(STATUS));
 		x += strlen(buf);
 	}
-	const char *right = "\"debian\" 12:04 12-Apr-99";
-	put(y, COLS - (int)strlen(right) - 1, right, COLOR_PAIR(STATUS));
+	const char *right = "\"debian\" 12-Apr-99";
+	put(y, COLS - (int)strlen(right), right, COLOR_PAIR(STATUS));
 }
 
 static void init_colors(void) {
 	start_color();
 	use_default_colors();
 	int rich = COLORS >= 256;
-	init_pair(STATUS, COLOR_BLACK, COLOR_GREEN);
-	init_pair(BLUE, COLOR_BLUE, -1);
+	init_pair(STATUS, COLOR_WHITE, COLOR_BLACK);
 	init_pair(WHITE, COLOR_WHITE, -1);
 	init_pair(GREY, rich ? 8 : COLOR_WHITE, -1);
 }
