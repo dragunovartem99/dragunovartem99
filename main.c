@@ -128,8 +128,10 @@ static const struct {
 	{ "Automation, better DX on Linux", 0.85 },
 	{ "Agentic coding systems", 0.50 },
 	{ "Backend: Go, Node.js, SQLite", 0.20 },
+	{ "Web performance: Core Web Vitals", 0.45 },
+	{ "Web security: XSS, CWE", 0.30 },
 };
-#define TOPICS_N 6
+#define TOPICS_N 8
 #define BAR 20
 
 // a bold title underlined with dashes, like whoami's user@host
@@ -163,41 +165,62 @@ static double exploring(void) {
 	return finish(14, done, 2.5);
 }
 
-#define PIC_H 6
+// two pixels per cell, drawn with half blocks
+#define SPRITE_H 10
+#define SPRITE_W 12
 
-static const char *KNIGHT[PIC_H] = {
-	"  _/|", " // o\\", " || ._)", " //__\\", " )___(", "/_____\\",
+static const char *KNIGHT[SPRITE_H] = {
+	"....#.#.....", "...#####....", "..#######...", ".##.######..",
+	"##########..", "###...#####.", ".....######.", "....#######.",
+	"..##########", ".###########",
 };
 
-static const char *BROCCOLI[PIC_H] = {
-	"   __  __", " _(  )(  )_", "(__  __  __)", "   \\ \\/ /", "    \\  /",
-	"     ||",
+static const char *BROCCOLI[SPRITE_H] = {
+	"...##..##...", ".##########.", "############", "############",
+	".####.#####.", "...#.##.#...", "....####....", ".....##.....",
+	".....##.....", "....####....",
 };
 
-static const char *GUITAR[PIC_H] = {
-	"    |=|", "    |=|", "   _|=|_", "  /  O  \\", " (   =   )", "  \\_____/",
+static const char *GUITAR[SPRITE_H] = {
+	"....###.....", ".....#......", ".....#......", ".....#......",
+	"...#####....", "..###.###...", "...#####....", "..#######...",
+	"..#######...", "...#####....",
 };
 
-// printed line by line, like whoami's laptop
-static void picture(int y, int x, const char *const *pic, double t) {
-	for (int r = 0; r < PIC_H && t >= r * 0.06; r++)
-		put(y + r, x, pic[r], COLOR_PAIR(BLUE) | A_BOLD);
+static int pixel(const char *const *pix, int r, int c) {
+	return r >= 0 && r < SPRITE_H && pix[r][c] == '#';
 }
+
+// printed line by line, like whoami's laptop, standing on a ground line;
+// lift raises it a pixel
+static void sprite(int y, int x, const char *const *pix, double t, int lift) {
+	put(y + SPRITE_H / 2, x, "▔▔▔▔▔▔▔▔▔▔▔▔", COLOR_PAIR(GREY));
+	for (int r = -1; r < SPRITE_H / 2 && t >= (r + 1) * 0.06; r++)
+		for (int c = 0; c < SPRITE_W; c++) {
+			int top = pixel(pix, 2 * r + lift, c),
+				bot = pixel(pix, 2 * r + 1 + lift, c);
+			if (top || bot)
+				put(y + r, x + c, top && bot ? "█" : top ? "▀" : "▄",
+					COLOR_PAIR(BLUE));
+		}
+}
+
+// three equal columns, each picture centered over its tag
+static const char *TAGS[] = { "#chess-lover", "#vegetarian", "#hobby-guitarist" };
+static const char *const *SPRITES[] = { KNIGHT, BROCCOLI, GUITAR };
 
 static double hobbies(void) {
 	double out = command(0, "./hobbies", 0, IDLE), t = now - out;
-	if (t >= 0) {
+	if (t >= 0)
 		heading(2, "Hobbies");
-		// the knight hops now and then, as if it were being moved
-		int hop = fmod(t, 1.6) > 0.4 && fmod(t, 1.6) < 0.65;
-		picture(5 - hop, 1, KNIGHT, t);
-		picture(5, 25, BROCCOLI, t);
-		picture(5, 49, GUITAR, t);
-	}
-	if (t >= PIC_H * 0.06) {
-		put(12, 1, "#chess-lover", COLOR_PAIR(WHITE) | A_BOLD);
-		put(12, 25, "#vegetarian", COLOR_PAIR(WHITE) | A_BOLD);
-		put(12, 49, "#hobby-guitarist", COLOR_PAIR(WHITE) | A_BOLD);
+	for (int i = 0; i < 3 && t >= 0; i++) {
+		int mid = COLS * (2 * i + 1) / 6;
+		// the knight hops a pixel now and then, as if it were being moved
+		int lift = i == 0 && fmod(t, 1.6) > 0.4 && fmod(t, 1.6) < 0.65;
+		sprite(5, mid - SPRITE_W / 2, SPRITES[i], t, lift);
+		if (t >= SPRITE_H / 2 * 0.06)
+			put(12, mid - (int)strlen(TAGS[i]) / 2, TAGS[i],
+				COLOR_PAIR(WHITE) | A_BOLD);
 	}
 	return finish(14, out + 3.8, 2.5);
 }

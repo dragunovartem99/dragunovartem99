@@ -15,9 +15,9 @@ gcc main.c -o intro -lncursesw -lm && ./intro
 Recorded with [asciinema](https://asciinema.org) and [agg](https://github.com/asciinema/agg), in Tomorrow Night colors:
 
 ```sh
-TERM=xterm-256color asciinema rec --cols 80 --rows 17 -c "timeout --foreground 23.10 ./intro" raw.cast
-# keep exactly one 22.50s loop, without the exit that would blank the last frame
-jq -c 'select(type == "object" or (.[0] < 22.50 and .[1] == "o"))' raw.cast > demo.cast
+TERM=xterm-256color asciinema rec --cols 80 --rows 17 -c "timeout --foreground 23.50 ./intro" raw.cast
+# keep exactly one 22.90s loop, without the exit that would blank the last frame
+jq -c 'select(type == "object" or (.[0] < 22.90 and .[1] == "o"))' raw.cast > demo.cast
 agg --font-family "JetBrainsMonoNL Nerd Font Mono" --font-size 26 --fps-cap 30 --last-frame-duration 0 \
     --theme 1d1f21,c5c8c6,282a2e,cc6666,b5bd68,f0c674,81a2be,b294bb,8abeb7,c5c8c6,969896,cc6666,b5bd68,f0c674,81a2be,b294bb,8abeb7,ffffff \
     demo.cast raw.gif
