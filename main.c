@@ -4,6 +4,7 @@
 #include <math.h>
 #include <ncurses.h>
 #include <signal.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -15,7 +16,7 @@ static void quit(int sig) {
 }
 
 enum {
-	TITLE = 1,
+	STATUS = 1,
 	GREEN,
 	YELLOW,
 	BLUE,
@@ -32,21 +33,18 @@ enum {
 static int live;
 static double now;
 
-// scenes sit this many rows lower, clear of the title bar
-static int top;
-
 static void put(int y, int x, const char *s, attr_t attr) {
-	if (!live || y < 0 || x < 0 || y + top >= LINES || x >= COLS)
+	if (!live || y < 0 || x < 0 || y >= LINES || x >= COLS)
 		return;
 	attrset(attr);
-	mvaddstr(y + top, x, s);
+	mvaddstr(y, x, s);
 }
 
 static void putn(int y, int x, const char *s, int n, attr_t attr) {
-	if (!live || y < 0 || x < 0 || y + top >= LINES || x >= COLS)
+	if (!live || y < 0 || x < 0 || y >= LINES || x >= COLS)
 		return;
 	attrset(attr);
-	mvaddnstr(y + top, x, s, n);
+	mvaddnstr(y, x, s, n);
 }
 
 static int clampi(double v, int lo, int hi) {
@@ -73,9 +71,10 @@ static double command(int y, const char *cmd, double t0, double pause) {
 	return enter;
 }
 
-// one scene: a command, its output, a moment to read it, then `clear`
+// one scene: a command, its output, a moment to read it, then a fresh
+// prompt until tmux switches to the next window
 static double finish(int y, double done, double hold) {
-	return command(y, "clear", done, hold);
+	return command(y, "", done, hold);
 }
 
 static const char *ART[] = {
@@ -246,21 +245,33 @@ static double hobbies(void) {
 }
 
 static double (*const SCENES[])(void) = { whoami, exploring, hobbies };
+static const char *WINDOWS[] = { "whoami", "exploring", "hobbies" };
 #define SCENES_N 3
 
-// i3's title bar over the window
-static void draw_title(void) {
-	for (int x = 0; x < COLS; x++)
-		put(0, x, " ", COLOR_PAIR(TITLE));
-	const char *title = "dragunovartem99@debian: ~";
-	put(0, (COLS - (int)strlen(title)) / 2, title, COLOR_PAIR(TITLE));
+// tmux's status line, one window per scene; the clock is my birthday
+static void draw_status(int active) {
+	int y = LINES - 1, x = 0;
+	char buf[32];
+	for (int c = 0; c < COLS; c++)
+		put(y, c, " ", COLOR_PAIR(STATUS));
+	put(y, x, "[intro] ", COLOR_PAIR(STATUS));
+	x += 8;
+	for (int i = 0; i < SCENES_N; i++) {
+		int last = (active + SCENES_N - 1) % SCENES_N;
+		snprintf(buf, sizeof buf, "%d:%s%c ", i, WINDOWS[i],
+				 i == active ? '*' : i == last ? '-' : ' ');
+		put(y, x, buf, COLOR_PAIR(STATUS));
+		x += strlen(buf);
+	}
+	const char *right = "\"debian\" 12:04 12-Apr-99";
+	put(y, COLS - (int)strlen(right) - 1, right, COLOR_PAIR(STATUS));
 }
 
 static void init_colors(void) {
 	start_color();
 	use_default_colors();
 	int rich = COLORS >= 256;
-	init_pair(TITLE, COLOR_WHITE, rich ? 233 : COLOR_BLACK);
+	init_pair(STATUS, COLOR_BLACK, COLOR_GREEN);
 	init_pair(GREEN, COLOR_GREEN, -1);
 	init_pair(YELLOW, COLOR_YELLOW, -1);
 	init_pair(BLUE, COLOR_BLUE, -1);
@@ -296,13 +307,11 @@ int main(void) {
 
 		erase();
 		live = 1;
-		top = 0;
-		draw_title();
-		top = 1;
 		for (int i = 0; i < SCENES_N; t -= lens[i++])
 			if (t < lens[i]) {
 				now = t;
 				SCENES[i]();
+				draw_status(i);
 				break;
 			}
 		refresh();
