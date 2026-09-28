@@ -17,11 +17,7 @@ static void quit(int sig) {
 
 enum {
 	STATUS = 1,
-	GREEN,
-	YELLOW,
 	BLUE,
-	MAGENTA,
-	CYAN,
 	WHITE,
 	GREY
 };
@@ -102,8 +98,8 @@ static double whoami(void) {
 	for (int i = 0; i < ART_H; i++) {
 		if (now < out + i * 0.06)
 			break;
-		put(2 + i, 2, ART[i], COLOR_PAIR(BLUE) | A_BOLD);
-		int y = 2 + i, x = 26;
+		put(2 + i, 1, ART[i], COLOR_PAIR(BLUE) | A_BOLD);
+		int y = 2 + i, x = 25;
 		if (i == 0) {
 			put(y, x, "dragunovartem99", COLOR_PAIR(WHITE) | A_BOLD);
 			put(y, x + 15, "@", COLOR_PAIR(WHITE));
@@ -131,22 +127,28 @@ static const struct {
 	{ "Object-oriented programming", 0.35 },
 	{ "Automation, better DX on Linux", 0.85 },
 	{ "Agentic coding systems", 0.50 },
+	{ "Backend: Go, Node.js, SQLite", 0.20 },
 };
-#define TOPICS_N 5
+#define TOPICS_N 6
 #define BAR 20
 
-static const int GRADIENT[] = { GREEN, CYAN, BLUE };
+// a bold title underlined with dashes, like whoami's user@host
+static void heading(int y, const char *title) {
+	put(y, 1, title, COLOR_PAIR(WHITE) | A_BOLD);
+	for (int i = 0; title[i]; i++)
+		put(y + 1, 1 + i, "-", COLOR_PAIR(WHITE));
+}
 
 static double exploring(void) {
 	double out = command(0, "./exploring --now", 0, IDLE);
 	if (now >= out)
-		put(2, 1, "Exploring right now", COLOR_PAIR(GREEN) | A_BOLD);
+		heading(2, "Exploring right now");
 	for (int i = 0; i < TOPICS_N; i++) {
 		double s = now - out - 0.3 - i * 0.2;
 		if (s < 0)
 			break;
 		double p = TOPICS[i].progress * (1 - pow(1 - fmin(s / 1.4, 1), 3));
-		int y = 4 + i, fill = lround(p * BAR);
+		int y = 5 + i, fill = lround(p * BAR);
 		char pct[8];
 		snprintf(pct, sizeof pct, "%3d%%", (int)lround(p * 100));
 		char num[4] = { '1' + i, '.' };
@@ -154,94 +156,50 @@ static double exploring(void) {
 		put(y, 4, TOPICS[i].topic, COLOR_PAIR(WHITE));
 		for (int b = 0; b < BAR; b++)
 			put(y, 41 + b, "━",
-				b < fill ? COLOR_PAIR(GRADIENT[b * 3 / BAR]) | A_BOLD
-						 : COLOR_PAIR(GREY) | A_DIM);
+				b < fill ? COLOR_PAIR(BLUE) | A_BOLD : COLOR_PAIR(GREY) | A_DIM);
 		put(y, 42 + BAR, pct, COLOR_PAIR(WHITE) | A_BOLD);
 	}
 	double done = out + 0.3 + (TOPICS_N - 1) * 0.2 + 1.4;
-	return finish(4 + TOPICS_N + 1, done, 2.5);
+	return finish(14, done, 2.5);
 }
 
-// two pixels per cell, drawn with half blocks
-static const char *KNIGHT[] = {
-	"....#.#.....", "...#####....", "..#######...", ".##.######..",
-	"##########..", "###...#####.", ".....######.", "....#######.",
-	"..##########", ".###########",
+#define PIC_H 6
+
+static const char *KNIGHT[PIC_H] = {
+	"  _/|", " // o\\", " || ._)", " //__\\", " )___(", "/_____\\",
 };
 
-static int knight_px(int r, int c, int blink) {
-	if (r < 0 || r > 9)
-		return 0;
-	return KNIGHT[r][c] == '#' || (blink && r == 3 && c == 3);
-}
-
-// the knight hops a pixel, as if it were being moved, and blinks now and then
-static void draw_knight(int y, int x, double t) {
-	put(y + 5, x, "▔▔▔▔▔▔▔▔▔▔▔▔", COLOR_PAIR(GREY));
-	int lift = fmod(t, 1.6) > 0.4 && fmod(t, 1.6) < 0.65,
-		blink = fmod(t, 2.2) > 2.05;
-	for (int r = -1; r < 5; r++)
-		for (int c = 0; c < 12; c++) {
-			int top = knight_px(2 * r + lift, c, blink),
-				bot = knight_px(2 * r + 1 + lift, c, blink);
-			if (top || bot)
-				put(y + r, x + c, top && bot ? "█" : top ? "▀" : "▄",
-					COLOR_PAIR(BLUE));
-		}
-}
-
-static const char *BROCCOLI[] = {
-	"  .o@@o.  ", " o@@@@@@o ", "  '@@@@'  ", "   \\|/    ", "    |     ",
+static const char *BROCCOLI[PIC_H] = {
+	"   __  __", " _(  )(  )_", "(__  __  __)", "   \\ \\/ /", "    \\  /",
+	"     ||",
 };
 
-// grows from the ground up
-static void draw_broccoli(int y, int x, double t) {
-	put(y + 5, x, "▔▔▔▔▔▔▔▔▔▔", COLOR_PAIR(YELLOW));
-	int rows = clampi(t / 0.45, 0, 5);
-	for (int r = 5 - rows; r < 5; r++)
-		put(y + r, x, BROCCOLI[r],
-			COLOR_PAIR(GREEN) | (r < 3 ? A_BOLD : 0));
-}
+static const char *GUITAR[PIC_H] = {
+	"    |=|", "    |=|", "   _|=|_", "  /  O  \\", " (   =   )", "  \\_____/",
+};
 
-// strummed strings ring out; notes drift up and fade
-static void draw_guitar(int y, int x, double t) {
-	static const double STRUM[] = { 0.3, 1.3, 2.3 };
-	double ring = 0;
-	for (int i = 0; i < 3; i++)
-		if (t >= STRUM[i])
-			ring = exp(-(t - STRUM[i]) * 2.2);
-		else
-			break;
-	for (int s = 0; s < 4; s++) {
-		put(y + 2 + s, x, "┃", COLOR_PAIR(WHITE) | A_BOLD);
-		for (int k = 1; k < 17; k++) {
-			double v = ring * sin(k * 0.9 + now * 40 + s * 1.7) *
-					   sin(k * M_PI / 17);
-			put(y + 2 + s, x + k, k % 5 == 0 ? "┼" : fabs(v) > 0.25 ? "~" : "─",
-				COLOR_PAIR(k % 5 == 0 ? GREY : WHITE) |
-					(fabs(v) > 0.25 ? A_BOLD : 0));
-		}
-	}
-	for (int i = 0; i < 3; i++) {
-		double age = t - STRUM[i];
-		if (age < 0 || age > 1.2)
-			continue;
-		put(y + 1 - (int)(age / 0.5), x + 4 + 5 * i, i % 2 ? "\U000F075A" : "\uF001",
-			COLOR_PAIR(i % 2 ? MAGENTA : YELLOW) | (age < 0.6 ? A_BOLD : A_DIM));
-	}
+// printed line by line, like whoami's laptop
+static void picture(int y, int x, const char *const *pic, double t) {
+	for (int r = 0; r < PIC_H && t >= r * 0.06; r++)
+		put(y + r, x, pic[r], COLOR_PAIR(BLUE) | A_BOLD);
 }
 
 static double hobbies(void) {
 	double out = command(0, "./hobbies", 0, IDLE), t = now - out;
 	if (t >= 0) {
-		draw_knight(3, 3, t);
-		draw_broccoli(3, 31, t);
-		draw_guitar(2, 54, t);
-		put(9, 3, "#chess-lover", COLOR_PAIR(BLUE) | A_BOLD);
-		put(9, 30, "#vegetarian", COLOR_PAIR(GREEN) | A_BOLD);
-		put(9, 54, "#hobby-guitarist", COLOR_PAIR(MAGENTA) | A_BOLD);
+		heading(2, "Hobbies");
+		// the knight hops now and then, as if it were being moved
+		int hop = fmod(t, 1.6) > 0.4 && fmod(t, 1.6) < 0.65;
+		picture(5 - hop, 1, KNIGHT, t);
+		picture(5, 25, BROCCOLI, t);
+		picture(5, 49, GUITAR, t);
 	}
-	return finish(11, out + 3.8, 2.5);
+	if (t >= PIC_H * 0.06) {
+		put(12, 1, "#chess-lover", COLOR_PAIR(WHITE) | A_BOLD);
+		put(12, 25, "#vegetarian", COLOR_PAIR(WHITE) | A_BOLD);
+		put(12, 49, "#hobby-guitarist", COLOR_PAIR(WHITE) | A_BOLD);
+	}
+	return finish(14, out + 3.8, 2.5);
 }
 
 static double (*const SCENES[])(void) = { whoami, exploring, hobbies };
@@ -272,11 +230,7 @@ static void init_colors(void) {
 	use_default_colors();
 	int rich = COLORS >= 256;
 	init_pair(STATUS, COLOR_BLACK, COLOR_GREEN);
-	init_pair(GREEN, COLOR_GREEN, -1);
-	init_pair(YELLOW, COLOR_YELLOW, -1);
 	init_pair(BLUE, COLOR_BLUE, -1);
-	init_pair(MAGENTA, COLOR_MAGENTA, -1);
-	init_pair(CYAN, COLOR_CYAN, -1);
 	init_pair(WHITE, COLOR_WHITE, -1);
 	init_pair(GREY, rich ? 8 : COLOR_WHITE, -1);
 }
