@@ -125,12 +125,13 @@ static const struct {
 	{ "Big picture of the Web architecture", 0.65 },
 	{ "Object-oriented programming", 0.35 },
 	{ "Automation, better DX on Linux", 0.85 },
+	{ "CI/CD: reusable GitHub Actions", 0.60 },
 	{ "Agentic coding systems", 0.50 },
-	{ "Backend: Go, Node.js, SQLite", 0.20 },
+	{ "Backend: Node.js, SQLite, DuckDB", 0.20 },
 	{ "Web performance: Core Web Vitals", 0.45 },
 	{ "Web security: XSS, CWE", 0.30 },
 };
-#define TOPICS_N 8
+#define TOPICS_N 9
 #define BAR 20
 
 static void heading(int y, const char *title) {
