@@ -1,4 +1,4 @@
-pad=iw+48:ih+48:24:24:color=0x1d1f21,format=yuv444p,hue=s=0,split[a][b];
+pad=iw+48:ih+48:24:24:color=0x111111,format=yuv444p,hue=s=0,split[a][b];
 [b]gblur=sigma=7[g];
 [a][g]blend=all_mode=screen:all_opacity=0.55,
 geq=lum='lum(X,Y)*if(eq(mod(Y,3),0),0.72,1)':cb=128:cr=128,
