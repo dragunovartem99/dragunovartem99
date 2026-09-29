@@ -114,7 +114,7 @@ static double whoami(void) {
 				COLOR_PAIR(WHITE));
 		}
 	}
-	return finish(2 + ART_H + 1, out + ART_H * 0.06, 4.5);
+	return finish(2 + ART_H + 1, out + ART_H * 0.06, 10);
 }
 
 static const struct {
@@ -161,7 +161,7 @@ static double exploring(void) {
 		put(y, COLS - 5, pct, COLOR_PAIR(WHITE) | A_BOLD);
 	}
 	double done = out + 0.3 + (TOPICS_N - 1) * 0.2 + 1.4;
-	return finish(4 + TOPICS_N + 1, done, 2.5);
+	return finish(4 + TOPICS_N + 1, done, 10);
 }
 
 static double (*const SCENES[])(void) = { whoami, exploring };
