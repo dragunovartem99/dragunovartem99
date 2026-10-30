@@ -88,7 +88,7 @@ static const char *INFO[][2] = {
 	{ "Packages", "TypeScript, Vue, Nuxt, Vite (npm)" },
 	{ "Shell", "bash 5.2.37" },
 	{ "WM", "i3" },
-	{ "Tooling", "nvim, tmux, xterm, claude" },
+	{ "Tooling", "nvim, tmux, xterm" },
 	{ "Languages", "en, ru" },
 	{ "Hobbies", "chess, guitar, Chinese tea" },
 };
