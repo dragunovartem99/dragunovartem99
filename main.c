@@ -197,7 +197,20 @@ static void init_colors(void) {
 	init_pair(TRACK, rich ? 237 : COLOR_BLACK, -1);
 }
 
-int main(void) {
+int main(int argc, char **argv) {
+	double lens[SCENES_N], loop = 0;
+	now = -1;
+	for (int i = 0; i < SCENES_N; i++)
+		loop += lens[i] = SCENES[i]();
+	if (argc == 2 && strcmp(argv[1], "--duration") == 0) {
+		printf("%.3f\n", loop);
+		return 0;
+	}
+	if (argc != 1) {
+		fprintf(stderr, "Usage: %s [--duration]\n", argv[0]);
+		return 1;
+	}
+
 	setlocale(LC_ALL, "");
 	signal(SIGINT, quit);
 	initscr();
@@ -206,11 +219,6 @@ int main(void) {
 	curs_set(0);
 	timeout(20);
 	init_colors();
-
-	double lens[SCENES_N], loop = 0;
-	now = -1;
-	for (int i = 0; i < SCENES_N; i++)
-		loop += lens[i] = SCENES[i]();
 
 	struct timespec start, ts;
 	clock_gettime(CLOCK_MONOTONIC, &start);
