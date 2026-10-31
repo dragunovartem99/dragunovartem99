@@ -9,20 +9,17 @@
 It's a real program, not a screen recording of me typing:
 
 ```sh
-gcc main.c -o intro -lncursesw -lm && ./intro
+make run
 ```
 
-With [asciinema](https://asciinema.org), [agg](https://github.com/asciinema/agg) and [VT323](fonts), on a dark screen:
+To regenerate `demo.gif` after editing `main.c`, install GCC, Make, the ncurses development headers, [asciinema](https://asciinema.org), [agg](https://github.com/asciinema/agg), jq, and FFmpeg, then run:
 
 ```sh
-TERM=xterm-256color asciinema rec --cols 67 --rows 17 -c "timeout --foreground 28.60 ./intro" raw.cast
-# keep one loop, drop the exit
-jq -c 'select(type == "object" or (.[0] < 27.97 and .[1] == "o"))' raw.cast > demo.cast
-agg --renderer fontdue --font-dir fonts --font-family VT323 --font-size 40 --line-height 1 --fps-cap 30 --last-frame-duration 0 \
-    --theme 111111,c5c8c6,282a2e,cc6666,b5bd68,f0c674,81a2be,b294bb,8abeb7,c5c8c6,969896,cc6666,b5bd68,f0c674,81a2be,b294bb,8abeb7,ffffff \
-    demo.cast raw.gif
-# CRT look: monochrome, glow, scanlines, curvature, vignette
-ffmpeg -i raw.gif -filter_complex_script crt.ffscript -fps_mode passthrough -loop 0 demo.gif
+make demo
 ```
+
+This rebuilds the program, records one loop using `./intro --duration`, renders it with the bundled [VT323](fonts) font, and applies the CRT effect. Recording also requires GNU `timeout` and a UTF-8 locale. Run it from a terminal and leave the keyboard untouched until recording finishes.
+
+Use `make -B demo` to force a fresh recording even when the files are up to date. If `agg` isn't on your `PATH`, use `make demo AGG="$HOME/.cargo/bin/agg"`. Commit the updated `demo.gif` to refresh the image on GitHub.
 
 </details>
